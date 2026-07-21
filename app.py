@@ -9,22 +9,68 @@ App de una sola vista:
 Cómo correr:
   streamlit run streamlit_10_graficas.py
 """
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go 
+
+df1 = pd.read_csv('vehicles_us.csv')
 
 # -------------------------------------------------------------------------
 # CONFIGURACIÓN Y CARGA DE DATOS
 # -------------------------------------------------------------------------
 st.set_page_config(page_title="Sprint7: Aplicativo web con streamlit", layout="wide")
-
 st.title("Sprint7: Aplicativo web con streamlit")
 st.title("Análisis y visualización de datos vehiculares")
 st.subheader("Desarrollado por Isaac Noriega")
 
+st.subheader("Ejercicio de botones")
 
+# Ejemplos de tripleTen:
+
+# Crear un botón en la aplicación Streamlit
+hist_button = st.button('Construir histograma')
+
+# Lógica a ejecutar cuando se hace clic en el botón
+if hist_button:
+    # Escribir un mensaje en la aplicación
+    st.write('Creación de un histograma para el conjunto de datos de anuncios de venta de coches')
+
+    # Crear un histograma utilizando plotly.graph_objects
+    # Se crea una figura vacía y luego se añade un rastro de histograma
+    fig = go.Figure(data=[go.Histogram(x=df1['odometer'])])
+
+    # Opcional: Puedes añadir un título al gráfico si lo deseas
+    fig.update_layout(title_text='Distribución del Odómetro')
+
+    # Mostrar el gráfico Plotly interactivo en la aplicación Streamlit
+    # 'use_container_width=True' ajusta el ancho del gráfico al contenedor
+    st.plotly_chart(fig, use_container_width=True)
+
+
+
+# Crear un botón en la aplicación Streamlit que al presionarlo genere un grafico de disperison
+gd_button = st.button('Construir gráfico de dispersión')
+
+# Lógica a ejecutar cuando se hace clic en el botón
+if gd_button:
+    # Escribir un mensaje en la aplicación
+    st.write('Creación de gráfico de dispersiòn para la realción entre precio y odómetro')
+
+    # Crear un diagrama de dispersión utilizando plotly.graph_objects
+    # Se crea una figura vacía y luego se añade un rastro de histograma
+    fig = go.Figure(data=[go.Scatter(x=df1['odometer'], y=df1['price'], mode='markers')])
+
+    # Opcional: Puedes añadir un título al gráfico si lo deseas
+    fig.update_layout(title_text='Relación entre precio y odometro')
+
+    # Mostrar el gráfico Plotly interactivo en la aplicación Streamlit
+    # 'use_container_width=True' ajusta el ancho del gráfico al contenedor
+    st.plotly_chart(fig, use_container_width=True)
+
+
+st.subheader("Ejercicio adicional para conocer otras visualizaciones")
 @st.cache_data
 def load_data():
     df = pd.read_csv("vehicles_us.csv")
